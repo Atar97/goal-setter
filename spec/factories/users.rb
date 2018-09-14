@@ -12,7 +12,7 @@
 
 FactoryBot.define do
   factory :user do
-    username {Faker::HeyArnold.character}
+    username {Faker::Name.first_name}
     password 'starwars'
   end
 end
