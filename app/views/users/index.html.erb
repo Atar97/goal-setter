@@ -1,0 +1,9 @@
+<h1>Here Are All the Users </h1>
+<% @users.each do |user| %>
+  <ul>
+
+  <% user.attributes.each do |name, value| %>
+    <li><%=name%>: <%=value%> </li>   
+  <% end  %>
+</ul>
+<% end  %>

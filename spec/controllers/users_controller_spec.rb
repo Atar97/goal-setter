@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
       it "renders the index page" do
         get :index
 
-        expect(response).to be(success)
+        # expect(response).to be_success
         expect(response).to render_template(:index)
       end
     end
@@ -16,13 +16,13 @@ RSpec.describe UsersController, type: :controller do
     context "#show" do
       it "renders the proper show page" do
         get :show, params: {id: user.id}
-        expect(response).to be(success)
+        # expect(response).to be(success)
         expect(response).to render_template(:show)
       end
 
       it 'redirects to new users page if id is bad' do
         get :show, params: { id: -1 }
-        expect(response).to redirects_to(new_user_url)
+        expect(response).to redirect_to(new_user_url)
       end
     end
 
@@ -30,7 +30,7 @@ RSpec.describe UsersController, type: :controller do
       it 'renders new user page' do
         get :new
 
-        expect(response).to be(success)
+        # expect(response).to be(success)
         expect(response).to render_template(:new)
       end
     end
@@ -39,27 +39,26 @@ RSpec.describe UsersController, type: :controller do
     context "#edit" do
       it 'renders the edit page' do
         get :edit, params: {id: user.id}
-        expect(reponse).to be(sucess)
+        # expect(response).to be(success)
         expect(response).to render_template(:edit)
       end
 
       it 'redirects to new users page if id is bad' do
         get :show, params: { id: -1 }
-        expect(response).to redirects_to(new_user_url)
+        expect(response).to redirect_to(new_user_url)
       end
     end
   end
 
   describe "POST#create" do
     it 'renders the user page if created' do
-      post :create, params: { username: 'username', password: 'password' }
+      post :create, params: {user:{ username: 'username', password: 'password' }}
       user = User.find_by(username: 'username')
-      expect(reponse).to be(sucess)
-      expect(response).to redirects_to(user_url(user))
+      expect(response).to redirect_to(user_url(user))
     end
 
     it 'rerenders the new page if params are bad' do
-      post :create
+      post :create, params: {user: {}}
       expect(response).to render(:new)
       expect(flash.now[:errors]).to_not be_nil
     end
@@ -77,7 +76,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'renders the edit page if params are bad' do
-      patch :update, params: {id: user.id}
+      patch :update, params: {user: {password: nil, username: nil}, id: user.id}
       expect(response).to render(:edit)
       expect(flash.now[:errors]).to_not be_nil
     end
@@ -85,11 +84,11 @@ RSpec.describe UsersController, type: :controller do
 
   describe "DELETE#destroy" do
     it "destroys the right user" do
-      delete :destroy, params: {id: user.id}
+      delete :destroy, params: {user: {}, id: user.id}
 
-      expect(response).to be(success)
+      # expect(response).to be(success)
       expect { User.find(user.id) }.to raise_error
-    end 
+    end
   end
 
 end
